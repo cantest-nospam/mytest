@@ -20,5 +20,7 @@ jobs:
           6.0.x
     - name: Build Test
       run: dotnet build TestApp/
+    - name: Restore dependencies
+      run: dotnet restore TestApp/
     - name: Test (I:Debug T:Debug R:false)
       run: dotnet run --verbosity normal --project TestApp/TestApp.csproj Test/Debug/net6.0/TestApp.dll
