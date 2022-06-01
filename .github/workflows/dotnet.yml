@@ -1,0 +1,24 @@
+name: Build Test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: |
+          6.0.x
+    - name: Build Test
+      run: dotnet build TestApp/
+    - name: Test (I:Debug T:Debug R:false)
+      run: dotnet run --verbosity normal --project TestApp/TestApp.csproj Test/Debug/net6.0/TestApp.dll
