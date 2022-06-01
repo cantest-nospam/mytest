@@ -11,8 +11,8 @@ jobs:
 
     runs-on: ubuntu-latest
     env: 
-      TEMP_SECRET: ${{ secrets.TEMP_SECRET }}
-      TEMP_SECRET2: ${{ secrets.TEMP_SECRET }}
+      TEMP_SECRET: ${{ secrets.TEMP_SECRET2 }}
+      TEMP_SECRET2: ${{ secrets.TEMP_SECRET2 }}
 
     steps:
     - uses: actions/checkout@v2
