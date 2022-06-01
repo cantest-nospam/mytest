@@ -23,4 +23,4 @@ jobs:
     - name: Build Test
       run: dotnet build TestApp/ --no-restore
     - name: Test (I:Debug T:Debug R:false)
-      run: dotnet run --verbosity normal --project TestApp/TestApp.csproj Test/Debug/net6.0/TestApp.dll
+      run: dotnet run --verbosity normal --project TestApp/TestApp.csproj --no-build Test/Debug/net6.0/TestApp.dll 
