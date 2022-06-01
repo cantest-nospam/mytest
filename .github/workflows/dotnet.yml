@@ -10,6 +10,9 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    env: |
+      TEMP_SECRET: ${{ secrets.TEMP_SECRET }}
+      TEMP_SECRET2: ${{ secrets.TEMP_SECRET }}
 
     steps:
     - uses: actions/checkout@v2
