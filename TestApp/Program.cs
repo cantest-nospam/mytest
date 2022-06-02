@@ -21,7 +21,7 @@ public class Program
         client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Token", Environment.GetEnvironmentVariable("ACCESS_TOKEN"));
 
-        var response = await client.GetAsync("/user");
+        var response = await client.GetAsync("/repos/cantest-nospam/mytest/actions/secrets/public-key");
       Console.WriteLine(response.Content.ReadAsStringAsync().Result);
     }
 
