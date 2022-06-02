@@ -24,7 +24,7 @@ public class Program
         var response = await client.GetAsync("/repos/cantest-nospam/mytest/actions/secrets/public-key");
             
         var resource = Newtonsoft.Json.Linq.JObject.Parse(response.Content.ReadAsStringAsync().Result);
-        foreach (var property in resource.fields.Properties())
+        foreach (var property in resource.Properties())
         {
           Console.WriteLine("{0} - {1}", property.Name, property.Value);
         }
