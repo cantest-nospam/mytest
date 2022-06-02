@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env: 
       TEMP_SECRET: "some silly value"
-      TEMP_SECRET2: ${{ secrets.TEMP_SECRET }}
+      ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
     steps:
     - uses: actions/checkout@v2
