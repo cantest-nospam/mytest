@@ -22,7 +22,7 @@ public class Program
         client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Token", Environment.GetEnvironmentVariable("ACCESS_TOKEN"));
 
         var response = await client.GetAsync("/user");
-      Console.WriteLine(response.Content.ReadAsStream());
+      Console.WriteLine(response.Content.ReadAsStringAsync().Result);
     }
 
 }
