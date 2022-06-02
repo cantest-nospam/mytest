@@ -22,7 +22,12 @@ public class Program
         client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Token", Environment.GetEnvironmentVariable("ACCESS_TOKEN"));
 
         var response = await client.GetAsync("/repos/cantest-nospam/mytest/actions/secrets/public-key");
-      Console.WriteLine(response.Content.ReadAsStringAsync().Result);
+            
+        var resource = Newtonsoft.Json.JObject.Parse(response.Content.ReadAsStringAsync().Result);
+        foreach (var property in resource.fields.Properties())
+        {
+          Console.WriteLine("{0} - {1}", property.Name, property.Value);
+        }
     }
 
 }
