@@ -1,5 +1,6 @@
 // See https://aka.ms/new-console-template for more information
 
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
 
@@ -45,7 +46,7 @@ public class Program
         secret.encrypted_value = Convert.ToBase64String(sealedPublicKeyBox);
         secret.key_id = key_id;
 
-        using (HttpContent httpContent = new StringContent(secret))
+        using (HttpContent httpContent = new StringContent(secret.ToString(Formatting.None)))
         {
             httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             HttpResponseMessage response2 = client.PutAsync("/repos/cantest-nospam/mytest/actions/secrets/AUTO_SECRET", httpContent).Result;
@@ -54,3 +55,4 @@ public class Program
     }
 
 }
+
