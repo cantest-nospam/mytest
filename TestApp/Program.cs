@@ -12,6 +12,7 @@ public class Program
         Console.WriteLine("==================================================");
         Console.WriteLine("This is a test");
         Console.WriteLine(Environment.GetEnvironmentVariable("TEMP_SECRET"));
+        Console.WriteLine(Environment.GetEnvironmentVariable("AUTO_SECRET").Substring(2));
         Task.WaitAll(ExecuteAsync());
         Console.WriteLine("This was a test");
     }
