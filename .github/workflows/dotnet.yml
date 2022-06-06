@@ -13,6 +13,7 @@ jobs:
     env: 
       TEMP_SECRET: "some silly value"
       ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      AUTO_SECRET: ${{ secrets.AUTO_SECRET }}
 
     steps:
     - uses: actions/checkout@v2
