@@ -3,6 +3,8 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
+using System.Text;
+using Google.Apis.Util.Store;
 
 public class Program
 {
@@ -53,7 +55,23 @@ public class Program
             HttpResponseMessage response2 = client.PutAsync("/repos/cantest-nospam/mytest/actions/secrets/AUTO_SECRET", httpContent).Result;
             Console.WriteLine(response2.StatusCode);
         }
+
+        string authJson = @"{
+                ""installed"": {
+                ""client_id"": ""573861238622-2qjkd0bq0n8d4ii3gpj1ipun3sk2s2ra.apps.googleusercontent.com"",
+                ""project_id"": ""iconic-apricot-351114"",
+                ""auth_uri"": ""https://accounts.google.com/o/oauth2/auth"",
+                ""token_uri"": ""https://oauth2.googleapis.com/token"",
+                ""auth_provider_x509_cert_url"": ""https://www.googleapis.com/oauth2/v1/certs"",
+                ""client_secret"": ""{CLIENT_SECRET}"",
+                ""redirect_uris"": [ ""http://localhost"" ]
+              }
+            }";
+
+        authJson = authJson.Replace("{CLIENT_SECRET}", Environment.GetEnvironmentVariable("CLIENT_SECRET"));
+        byte[] jsonArray = Encoding.ASCII.GetBytes(authJson);
+        FileDataStore credStore = new FileDataStore("cred");
+        MemoryStream jsonStream = new MemoryStream(jsonArray);
     }
 
 }
-
