@@ -5,6 +5,11 @@ using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
 using System.Text;
 using Google.Apis.Util.Store;
+using TestApp;
+using Google.Apis.Auth.OAuth2.Flows;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.YouTube.v3;
+using static Google.Apis.Auth.OAuth2.Web.AuthorizationCodeWebApp;
 
 public class Program
 {
@@ -21,40 +26,7 @@ public class Program
 
     public static async Task ExecuteAsync()
     {
-        HttpClient client = new HttpClient();
-        client.BaseAddress = new Uri("https://api.github.com");
-
-        client.DefaultRequestHeaders.UserAgent.Add(new System.Net.Http.Headers.ProductInfoHeaderValue("TestApp", "1.0"));
-        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-        client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Token", Environment.GetEnvironmentVariable("ACCESS_TOKEN"));
-
-        var response = await client.GetAsync("/repos/cantest-nospam/mytest/actions/secrets/public-key");
-
-        var resource = Newtonsoft.Json.Linq.JObject.Parse(response.Content.ReadAsStringAsync().Result);
-        foreach (var property in resource.Properties())
-        {
-            Console.WriteLine("{0} - {1}", property.Name, property.Value);
-        }
-        string key = (string)resource["key"];
-        string key_id = (string)resource["key_id"];
-
-        var secretValue = System.Text.Encoding.UTF8.GetBytes("mySecret");
-        var publicKey = Convert.FromBase64String(key);
-
-        var sealedPublicKeyBox = Sodium.SealedPublicKeyBox.Create(secretValue, publicKey);
-
-        Console.WriteLine(Convert.ToBase64String(sealedPublicKeyBox));
-
-        dynamic secret = new JObject();
-        secret.encrypted_value = Convert.ToBase64String(sealedPublicKeyBox);
-        secret.key_id = key_id;
-
-        using (HttpContent httpContent = new StringContent(secret.ToString(Formatting.None)))
-        {
-            httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            HttpResponseMessage response2 = client.PutAsync("/repos/cantest-nospam/mytest/actions/secrets/AUTO_SECRET", httpContent).Result;
-            Console.WriteLine(response2.StatusCode);
-        }
+     
 
         string authJson = @"{
                 ""installed"": {
@@ -70,8 +42,24 @@ public class Program
 
         authJson = authJson.Replace("{CLIENT_SECRET}", Environment.GetEnvironmentVariable("CLIENT_SECRET"));
         byte[] jsonArray = Encoding.ASCII.GetBytes(authJson);
+
+        MemoryStore memStore = new MemoryStore();
+
+
         FileDataStore credStore = new FileDataStore("cred");
         MemoryStream jsonStream = new MemoryStream(jsonArray);
+
+
+        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
+        {
+            ClientSecrets = GoogleClientSecrets.FromStream(jsonStream).Secrets,
+            Scopes = new[] { YouTubeService.Scope.YoutubeForceSsl }
+        });
+
+        Google.Apis.Auth.OAuth2.Web.AuthorizationCodeWebApp webapp = new Google.Apis.Auth.OAuth2.Web.AuthorizationCodeWebApp(flow, "https://localhost", "");
+        AuthResult auth = await webapp.AuthorizeAsync("opensource@aswglobal.com", CancellationToken.None);
+
+        Console.WriteLine(auth.RedirectUri);
     }
 
 }
