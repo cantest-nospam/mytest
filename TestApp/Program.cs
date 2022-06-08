@@ -55,7 +55,8 @@ public class Program
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
         {
             ClientSecrets = GoogleClientSecrets.FromStream(jsonStream).Secrets,
-            Scopes = new[] { YouTubeService.Scope.YoutubeForceSsl }
+            Scopes = new[] { YouTubeService.Scope.YoutubeForceSsl },
+            DataStore = memStore
         });
 
         Google.Apis.Auth.OAuth2.Web.AuthorizationCodeWebApp webapp = new Google.Apis.Auth.OAuth2.Web.AuthorizationCodeWebApp(flow, "https://localhost", "");
