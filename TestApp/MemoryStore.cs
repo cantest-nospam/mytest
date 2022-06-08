@@ -111,7 +111,7 @@ namespace TestApp
 
         public Task<T> GetAsync<T>(string key)
         {
-            Console.WriteLine("GetAsync: " + key);
+            Console.WriteLine("GetAsync: " + typeof(T));
             if (string.IsNullOrEmpty(key))
             {
                 throw new ArgumentException("Key MUST have a value");
