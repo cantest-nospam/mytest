@@ -109,13 +109,6 @@ namespace TestApp
             return CompletedTask;
         }
 
-        /// <summary>
-        /// Returns the stored value for the given key or <c>null</c> if the matching file (<see cref="GenerateStoredKey"/>
-        /// in <see cref="FolderPath"/> doesn't exist.
-        /// </summary>
-        /// <typeparam name="T">The type to retrieve.</typeparam>
-        /// <param name="key">The key to retrieve from the data store.</param>
-        /// <returns>The stored object.</returns>
         public Task<T> GetAsync<T>(string key)
         {
             if (string.IsNullOrEmpty(key))
@@ -124,29 +117,10 @@ namespace TestApp
             }
 
             TaskCompletionSource<T> tcs = new TaskCompletionSource<T>();
-            var filePath = Path.Combine(folderPath, GenerateStoredKey(key, typeof(T)));
-            if (File.Exists(filePath))
-            {
-                try
-                {
-                    var obj = File.ReadAllText(filePath);
-                    tcs.SetResult(NewtonsoftJsonSerializer.Instance.Deserialize<T>(obj));
-                }
-                catch (Exception ex)
-                {
-                    tcs.SetException(ex);
-                }
-            }
-            else
-            {
-                tcs.SetResult(default(T));
-            }
+
             return tcs.Task;
         }
 
-        /// <summary>
-        /// Clears all values in the data store. This method deletes all files in <see cref="FolderPath"/>.
-        /// </summary>
         public Task ClearAsync()
         {
             if (Directory.Exists(folderPath))
