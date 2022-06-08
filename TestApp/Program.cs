@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using Google.Apis.Util.Store;
 using TestApp;
 using Google.Apis.Auth.OAuth2.Flows;
@@ -60,6 +61,7 @@ public class Program
         AuthResult auth = await webapp.AuthorizeAsync("opensource@aswglobal.com", CancellationToken.None);
 
         Console.WriteLine(auth.RedirectUri);
+        Thread.Sleep(10000);
     }
 
 }
