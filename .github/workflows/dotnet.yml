@@ -15,6 +15,7 @@ jobs:
       ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       AUTO_SECRET: ${{ secrets.AUTO_SECRET }}
       CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+      TOKEN_RESPONSE_CODE: ${{ secrets.TOKEN_RESPONSE_CODE }}
 
     steps:
     - uses: actions/checkout@v2
