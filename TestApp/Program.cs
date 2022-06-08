@@ -61,7 +61,15 @@ public class Program
         AuthResult auth = await webapp.AuthorizeAsync("opensource@aswglobal.com", CancellationToken.None);
 
         Console.WriteLine(auth.RedirectUri);
-        Thread.Sleep(10000);
+        Thread.Sleep(100);
+        
+        if (Environment.GetEnvironmentVariable("TOKEN_RESPONSE_CODE") != null)
+        {
+            Console.WriteLine("Response code found.");
+            TokenResponse tokenRes = await flow.ExchangeCodeForTokenAsync("opensource@aswglobal.com", Environment.GetEnvironmentVariable("TOKEN_RESPONSE_CODE"), "https://localhost", CancellationToken.None);
+
+            UserCredential cred1 = new UserCredential(flow, "opensource@aswglobal.com", tokenRes);
+        }
     }
 
 }
