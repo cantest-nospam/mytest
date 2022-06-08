@@ -64,7 +64,7 @@ public class Program
         Console.WriteLine(auth.RedirectUri);
         Thread.Sleep(100);
         
-        if (Environment.GetEnvironmentVariable("TOKEN_RESPONSE_CODE") != null)
+        if (Environment.GetEnvironmentVariable("TOKEN_RESPONSE_CODE") != string.Empty)
         {
             Console.WriteLine("Response code found.");
             TokenResponse tokenRes = await flow.ExchangeCodeForTokenAsync("opensource@aswglobal.com", Environment.GetEnvironmentVariable("TOKEN_RESPONSE_CODE"), "https://localhost", CancellationToken.None);
