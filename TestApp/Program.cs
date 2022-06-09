@@ -11,6 +11,8 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.YouTube.v3;
 using Google.Apis.Auth.OAuth2.Responses;
 using static Google.Apis.Auth.OAuth2.Web.AuthorizationCodeWebApp;
+using Google.Apis.Services;
+using Google.Apis.YouTube.v3.Data;
 
 public class Program
 {
@@ -195,6 +197,23 @@ public class Program
 
             UserCredential cred1 = new UserCredential(flow, "opensource@aswglobal.com", tokenRes);
             Console.WriteLine(cred1.UserId);
+
+            YouTubeService yt = new YouTubeService(new BaseClientService.Initializer()
+            {
+                ApiKey = (string)Environment.GetEnvironmentVariable("YOUTUBE_API_KEY"),
+                ApplicationName = "My App",
+                HttpClientInitializer = cred1
+            });
+
+            Video vid = new Video();
+            vid.Id = "jnzNNTKBglc";
+            vid.Snippet = new VideoSnippet();
+            vid.Snippet.Description = "GitHub Updated This!";
+            vid.Snippet.Title = "Test title";
+            vid.Snippet.CategoryId = "1";
+            VideosResource.UpdateRequest req = yt.Videos.Update(vid, "snippet");
+            req.Execute();
+
 
         }
     }
