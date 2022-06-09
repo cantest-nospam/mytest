@@ -197,6 +197,7 @@ public class Program
 
             UserCredential cred1 = new UserCredential(flow, "opensource@aswglobal.com", tokenRes);
             Console.WriteLine(cred1.UserId);
+            Console.WriteLine(tokenRes.Issued.AddSeconds((double)tokenRes.ExpiresInSeconds));
 
             YouTubeService yt = new YouTubeService(new BaseClientService.Initializer()
             {
@@ -209,7 +210,7 @@ public class Program
             vid.Id = "jnzNNTKBglc";
             vid.Snippet = new VideoSnippet();
             vid.Snippet.Description = "GitHub Updated This!";
-            vid.Snippet.Title = "Test title";
+            vid.Snippet.Title = "Test title from GitHub";
             vid.Snippet.CategoryId = "1";
             VideosResource.UpdateRequest req = yt.Videos.Update(vid, "snippet");
             req.Execute();
