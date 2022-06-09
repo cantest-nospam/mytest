@@ -180,7 +180,7 @@ public class Program
 
             Console.WriteLine(cred1.UserId);
         }
-        else if (Environment.GetEnvironmentVariable("ID_TOKEN") != string.Empty)
+        else if (Environment.GetEnvironmentVariable("GOOGLE_ACCESS_TOKEN") != string.Empty)
         {
             Console.WriteLine("Saved token response found.");
             TokenResponse tokenRes = new TokenResponse();
