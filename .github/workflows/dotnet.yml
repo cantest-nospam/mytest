@@ -12,10 +12,18 @@ jobs:
     runs-on: ubuntu-latest
     env: 
       TEMP_SECRET: "some silly value"
-      ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       AUTO_SECRET: ${{ secrets.AUTO_SECRET }}
       CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
       TOKEN_RESPONSE_CODE: ${{ secrets.TOKEN_RESPONSE_CODE }}
+      ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      EXPIRES_IN_SECONDS: ${{ secrets.EXPIRES_IN_SECONDS }}
+      ID_TOKEN: ${{ secrets.ID_TOKEN }}
+      ISSUED: ${{ secrets.ISSUED }}
+      ISSUED_UTC: ${{ secrets.ISSUED_UTC }}
+      REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+      SCOPE: ${{ secrets.SCOPE }}
+      TOKEN_TYPE: ${{ secrets.TOKEN_TYPE }}
+      
 
     steps:
     - uses: actions/checkout@v2
