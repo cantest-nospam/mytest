@@ -197,7 +197,7 @@ public class Program
 
             UserCredential cred1 = new UserCredential(flow, "opensource@aswglobal.com", tokenRes);
             Console.WriteLine(cred1.UserId);
-            Console.WriteLine(tokenRes.Issued.AddSeconds((double)tokenRes.ExpiresInSeconds));
+            Console.WriteLine((double)tokenRes.ExpiresInSeconds);
 
             YouTubeService yt = new YouTubeService(new BaseClientService.Initializer()
             {
