@@ -199,7 +199,7 @@ public class Program
             Console.WriteLine(cred1.UserId);
             Console.WriteLine(DateTime.Now);
             Console.WriteLine(DateTime.Now.AddSeconds((double)tokenRes.ExpiresInSeconds));
-            Console.WriteLine(tokenRes.IsExpired);
+            Console.WriteLine(tokenRes.IsExpired(Google.Apis.Util.SystemClock.Default));
 
             YouTubeService yt = new YouTubeService(new BaseClientService.Initializer()
             {
