@@ -67,6 +67,16 @@ public class Program
         {
             Console.WriteLine("Response code found.");
             TokenResponse tokenRes = await flow.ExchangeCodeForTokenAsync("opensource@aswglobal.com", Environment.GetEnvironmentVariable("TOKEN_RESPONSE_CODE"), "https://localhost", CancellationToken.None);
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://api.github.com");
+
+            client.DefaultRequestHeaders.UserAgent.Add(new System.Net.Http.Headers.ProductInfoHeaderValue("TestApp", "1.0"));
+            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Token", Environment.GetEnvironmentVariable("ACCESS_TOKEN"));
+
+            HttpResponseMessage deleteResponse = client.DeleteAsync("/repos/cantest-nospam/mytest/actions/secrets/TOKEN_RESPONSE_CODE").Result;
+            Console.WriteLine(deleteResponse.StatusCode);
+
 
             SaveToken(tokenRes);
 
@@ -136,9 +146,6 @@ public class Program
         string key = (string)resource["key"];
         string key_id = (string)resource["key_id"];
         byte[] publicKey = Convert.FromBase64String(key);
-
-        HttpResponseMessage deleteResponse = client.DeleteAsync("/repos/cantest-nospam/mytest/actions/secrets/TOKEN_RESPONSE_CODE").Result;
-        Console.WriteLine(deleteResponse.StatusCode);
 
         byte[] accessTokenArray = System.Text.Encoding.UTF8.GetBytes(tokenRes.AccessToken);
         byte[] expiresInSecondsArray = System.Text.Encoding.UTF8.GetBytes(tokenRes.ExpiresInSeconds.Value.ToString());
