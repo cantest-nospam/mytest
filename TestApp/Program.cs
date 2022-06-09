@@ -84,7 +84,7 @@ public class Program
 
             byte[] accessTokenArray = System.Text.Encoding.UTF8.GetBytes(tokenRes.AccessToken);
             byte[] expiresInSecondsArray = System.Text.Encoding.UTF8.GetBytes(tokenRes.ExpiresInSeconds.Value.ToString());
-            byte[] idTokenArray = System.Text.Encoding.UTF8.GetBytes(tokenRes.IdToken);
+            byte[] idTokenArray = System.Text.Encoding.UTF8.GetBytes(tokenRes.IdToken == null ? String.Empty : tokenRes.IdToken);
             byte[] issuedArray = System.Text.Encoding.UTF8.GetBytes(tokenRes.Issued.ToString());
             byte[] issuedUtcArray = System.Text.Encoding.UTF8.GetBytes(tokenRes.IssuedUtc.ToString());
             byte[] refreshTokenArray = System.Text.Encoding.UTF8.GetBytes(tokenRes.RefreshToken);
