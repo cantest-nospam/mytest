@@ -23,6 +23,7 @@ jobs:
       REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
       SCOPE: ${{ secrets.SCOPE }}
       TOKEN_TYPE: ${{ secrets.TOKEN_TYPE }}
+      GOOGLE_ACCESS_TOKEN: ${{ secrets.GOOGLE_ACCESS_TOKEN }}
       
 
     steps:
