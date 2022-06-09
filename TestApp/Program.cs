@@ -68,115 +68,7 @@ public class Program
             Console.WriteLine("Response code found.");
             TokenResponse tokenRes = await flow.ExchangeCodeForTokenAsync("opensource@aswglobal.com", Environment.GetEnvironmentVariable("TOKEN_RESPONSE_CODE"), "https://localhost", CancellationToken.None);
 
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("https://api.github.com");
-
-            client.DefaultRequestHeaders.UserAgent.Add(new System.Net.Http.Headers.ProductInfoHeaderValue("TestApp", "1.0"));
-            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Token", Environment.GetEnvironmentVariable("ACCESS_TOKEN"));
-
-            Task<HttpResponseMessage> response = client.GetAsync("/repos/cantest-nospam/mytest/actions/secrets/public-key");
-            var resource = Newtonsoft.Json.Linq.JObject.Parse(response.Result.Content.ReadAsStringAsync().Result);
-            string key = (string)resource["key"];
-            string key_id = (string)resource["key_id"];
-            byte[] publicKey = Convert.FromBase64String(key);
-
-            HttpResponseMessage deleteResponse = client.DeleteAsync("/repos/cantest-nospam/mytest/actions/secrets/TOKEN_RESPONSE_CODE").Result;
-            Console.WriteLine(deleteResponse.StatusCode);
-
-            byte[] accessTokenArray = System.Text.Encoding.UTF8.GetBytes(tokenRes.AccessToken);
-            byte[] expiresInSecondsArray = System.Text.Encoding.UTF8.GetBytes(tokenRes.ExpiresInSeconds.Value.ToString());
-            byte[] idTokenArray = System.Text.Encoding.UTF8.GetBytes(tokenRes.IdToken == null ? String.Empty : tokenRes.IdToken);
-            byte[] issuedArray = System.Text.Encoding.UTF8.GetBytes(tokenRes.Issued.ToString());
-            byte[] issuedUtcArray = System.Text.Encoding.UTF8.GetBytes(tokenRes.IssuedUtc.ToString());
-            byte[] refreshTokenArray = System.Text.Encoding.UTF8.GetBytes(tokenRes.RefreshToken);
-            byte[] scopeArray = System.Text.Encoding.UTF8.GetBytes(tokenRes.Scope);
-            byte[] tokenTypeArray = System.Text.Encoding.UTF8.GetBytes(tokenRes.TokenType);
-
-            byte[] accessTokenBox = Sodium.SealedPublicKeyBox.Create(accessTokenArray, publicKey);
-            byte[] expiresInSecondsBox = Sodium.SealedPublicKeyBox.Create(expiresInSecondsArray, publicKey);
-            byte[] idTokenBox = Sodium.SealedPublicKeyBox.Create(idTokenArray, publicKey);
-            byte[] issuedBox = Sodium.SealedPublicKeyBox.Create(issuedArray, publicKey);
-            byte[] issuedUtcBox = Sodium.SealedPublicKeyBox.Create(issuedUtcArray, publicKey);
-            byte[] refreshTokenBox = Sodium.SealedPublicKeyBox.Create(refreshTokenArray, publicKey);
-            byte[] scopeBox = Sodium.SealedPublicKeyBox.Create(scopeArray, publicKey);
-            byte[] tokenTypeBox = Sodium.SealedPublicKeyBox.Create(tokenTypeArray, publicKey);
-
-            dynamic accessTokenSecret = new JObject();
-            dynamic expiresInSecondsSecret = new JObject();
-            dynamic idTokenSecret = new JObject();
-            dynamic issuedSecret = new JObject();
-            dynamic issuedUtcSecret = new JObject();
-            dynamic refreshTokenSecret = new JObject();
-            dynamic scopeSecret = new JObject();
-            dynamic tokenTypeSecret = new JObject();
-
-            accessTokenSecret.encrypted_value = Convert.ToBase64String(accessTokenBox);
-            expiresInSecondsSecret.encrypted_value = Convert.ToBase64String(expiresInSecondsBox);
-            idTokenSecret.encrypted_value = Convert.ToBase64String(idTokenBox);
-            issuedSecret.encrypted_value = Convert.ToBase64String(issuedBox);
-            issuedUtcSecret.encrypted_value = Convert.ToBase64String(issuedUtcBox);
-            refreshTokenSecret.encrypted_value = Convert.ToBase64String(refreshTokenBox);
-            scopeSecret.encrypted_value = Convert.ToBase64String(scopeBox);
-            tokenTypeSecret.encrypted_value = Convert.ToBase64String(tokenTypeBox);
-
-            accessTokenSecret.key_id = key_id;
-            expiresInSecondsSecret.key_id = key_id;
-            idTokenSecret.key_id = key_id;
-            issuedSecret.key_id = key_id;
-            issuedUtcSecret.key_id = key_id;
-            refreshTokenSecret.key_id = key_id;
-            scopeSecret.key_id = key_id;
-            tokenTypeSecret.key_id = key_id;
-
-            using (HttpContent httpContent = new StringContent(accessTokenSecret.ToString(Formatting.None)))
-            {
-                httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                HttpResponseMessage response2 = client.PutAsync("/repos/cantest-nospam/mytest/actions/secrets/GOOGLE_ACCESS_TOKEN", httpContent).Result;
-                Console.WriteLine(response2.StatusCode);
-            }
-            using (HttpContent httpContent = new StringContent(expiresInSecondsSecret.ToString(Formatting.None)))
-            {
-                httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                HttpResponseMessage response2 = client.PutAsync("/repos/cantest-nospam/mytest/actions/secrets/EXPIRES_IN_SECONDS", httpContent).Result;
-                Console.WriteLine(response2.StatusCode);
-            }
-            using (HttpContent httpContent = new StringContent(idTokenSecret.ToString(Formatting.None)))
-            {
-                httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                HttpResponseMessage response2 = client.PutAsync("/repos/cantest-nospam/mytest/actions/secrets/ID_TOKEN", httpContent).Result;
-                Console.WriteLine(response2.StatusCode);
-            }
-            using (HttpContent httpContent = new StringContent(issuedSecret.ToString(Formatting.None)))
-            {
-                httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                HttpResponseMessage response2 = client.PutAsync("/repos/cantest-nospam/mytest/actions/secrets/ISSUED", httpContent).Result;
-                Console.WriteLine(response2.StatusCode);
-            }
-            using (HttpContent httpContent = new StringContent(issuedUtcSecret.ToString(Formatting.None)))
-            {
-                httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                HttpResponseMessage response2 = client.PutAsync("/repos/cantest-nospam/mytest/actions/secrets/ISSUED_UTC", httpContent).Result;
-                Console.WriteLine(response2.StatusCode);
-            }
-            using (HttpContent httpContent = new StringContent(refreshTokenSecret.ToString(Formatting.None)))
-            {
-                httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                HttpResponseMessage response2 = client.PutAsync("/repos/cantest-nospam/mytest/actions/secrets/REFRESH_TOKEN", httpContent).Result;
-                Console.WriteLine(response2.StatusCode);
-            }
-            using (HttpContent httpContent = new StringContent(scopeSecret.ToString(Formatting.None)))
-            {
-                httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                HttpResponseMessage response2 = client.PutAsync("/repos/cantest-nospam/mytest/actions/secrets/SCOPE", httpContent).Result;
-                Console.WriteLine(response2.StatusCode);
-            }
-            using (HttpContent httpContent = new StringContent(tokenTypeSecret.ToString(Formatting.None)))
-            {
-                httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                HttpResponseMessage response2 = client.PutAsync("/repos/cantest-nospam/mytest/actions/secrets/TOKEN_TYPE", httpContent).Result;
-                Console.WriteLine(response2.StatusCode);
-            }
+            SaveToken(tokenRes);
 
             UserCredential cred1 = new UserCredential(flow, "opensource@aswglobal.com", tokenRes);
 
@@ -195,11 +87,20 @@ public class Program
             tokenRes.Scope = (string)Environment.GetEnvironmentVariable("SCOPE");
             tokenRes.TokenType = (string)Environment.GetEnvironmentVariable("TOKEN_TYPE");
 
+            if (tokenRes.IsExpired(Google.Apis.Util.SystemClock.Default))
+            {
+                Console.WriteLine("Refreshing token.");
+                tokenRes = flow.RefreshTokenAsync("opensource@aswglobal.com", tokenRes.RefreshToken, CancellationToken.None).Result;
+                SaveToken(tokenRes);
+
+
+            }
+
             UserCredential cred1 = new UserCredential(flow, "opensource@aswglobal.com", tokenRes);
             Console.WriteLine(cred1.UserId);
             Console.WriteLine(DateTime.Now);
             Console.WriteLine(DateTime.Now.AddSeconds((double)tokenRes.ExpiresInSeconds));
-            Console.WriteLine(tokenRes.IsExpired(Google.Apis.Util.SystemClock.Default));
+            
 
             YouTubeService yt = new YouTubeService(new BaseClientService.Initializer()
             {
@@ -220,5 +121,119 @@ public class Program
 
         }
     }
+
+    public static void SaveToken(TokenResponse tokenRes)
+    {
+        HttpClient client = new HttpClient();
+        client.BaseAddress = new Uri("https://api.github.com");
+
+        client.DefaultRequestHeaders.UserAgent.Add(new System.Net.Http.Headers.ProductInfoHeaderValue("TestApp", "1.0"));
+        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+        client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Token", Environment.GetEnvironmentVariable("ACCESS_TOKEN"));
+
+        Task<HttpResponseMessage> response = client.GetAsync("/repos/cantest-nospam/mytest/actions/secrets/public-key");
+        var resource = Newtonsoft.Json.Linq.JObject.Parse(response.Result.Content.ReadAsStringAsync().Result);
+        string key = (string)resource["key"];
+        string key_id = (string)resource["key_id"];
+        byte[] publicKey = Convert.FromBase64String(key);
+
+        HttpResponseMessage deleteResponse = client.DeleteAsync("/repos/cantest-nospam/mytest/actions/secrets/TOKEN_RESPONSE_CODE").Result;
+        Console.WriteLine(deleteResponse.StatusCode);
+
+        byte[] accessTokenArray = System.Text.Encoding.UTF8.GetBytes(tokenRes.AccessToken);
+        byte[] expiresInSecondsArray = System.Text.Encoding.UTF8.GetBytes(tokenRes.ExpiresInSeconds.Value.ToString());
+        byte[] idTokenArray = System.Text.Encoding.UTF8.GetBytes(tokenRes.IdToken == null ? String.Empty : tokenRes.IdToken);
+        byte[] issuedArray = System.Text.Encoding.UTF8.GetBytes(tokenRes.Issued.ToString());
+        byte[] issuedUtcArray = System.Text.Encoding.UTF8.GetBytes(tokenRes.IssuedUtc.ToString());
+        byte[] refreshTokenArray = System.Text.Encoding.UTF8.GetBytes(tokenRes.RefreshToken);
+        byte[] scopeArray = System.Text.Encoding.UTF8.GetBytes(tokenRes.Scope);
+        byte[] tokenTypeArray = System.Text.Encoding.UTF8.GetBytes(tokenRes.TokenType);
+
+        byte[] accessTokenBox = Sodium.SealedPublicKeyBox.Create(accessTokenArray, publicKey);
+        byte[] expiresInSecondsBox = Sodium.SealedPublicKeyBox.Create(expiresInSecondsArray, publicKey);
+        byte[] idTokenBox = Sodium.SealedPublicKeyBox.Create(idTokenArray, publicKey);
+        byte[] issuedBox = Sodium.SealedPublicKeyBox.Create(issuedArray, publicKey);
+        byte[] issuedUtcBox = Sodium.SealedPublicKeyBox.Create(issuedUtcArray, publicKey);
+        byte[] refreshTokenBox = Sodium.SealedPublicKeyBox.Create(refreshTokenArray, publicKey);
+        byte[] scopeBox = Sodium.SealedPublicKeyBox.Create(scopeArray, publicKey);
+        byte[] tokenTypeBox = Sodium.SealedPublicKeyBox.Create(tokenTypeArray, publicKey);
+
+        dynamic accessTokenSecret = new JObject();
+        dynamic expiresInSecondsSecret = new JObject();
+        dynamic idTokenSecret = new JObject();
+        dynamic issuedSecret = new JObject();
+        dynamic issuedUtcSecret = new JObject();
+        dynamic refreshTokenSecret = new JObject();
+        dynamic scopeSecret = new JObject();
+        dynamic tokenTypeSecret = new JObject();
+
+        accessTokenSecret.encrypted_value = Convert.ToBase64String(accessTokenBox);
+        expiresInSecondsSecret.encrypted_value = Convert.ToBase64String(expiresInSecondsBox);
+        idTokenSecret.encrypted_value = Convert.ToBase64String(idTokenBox);
+        issuedSecret.encrypted_value = Convert.ToBase64String(issuedBox);
+        issuedUtcSecret.encrypted_value = Convert.ToBase64String(issuedUtcBox);
+        refreshTokenSecret.encrypted_value = Convert.ToBase64String(refreshTokenBox);
+        scopeSecret.encrypted_value = Convert.ToBase64String(scopeBox);
+        tokenTypeSecret.encrypted_value = Convert.ToBase64String(tokenTypeBox);
+
+        accessTokenSecret.key_id = key_id;
+        expiresInSecondsSecret.key_id = key_id;
+        idTokenSecret.key_id = key_id;
+        issuedSecret.key_id = key_id;
+        issuedUtcSecret.key_id = key_id;
+        refreshTokenSecret.key_id = key_id;
+        scopeSecret.key_id = key_id;
+        tokenTypeSecret.key_id = key_id;
+
+        using (HttpContent httpContent = new StringContent(accessTokenSecret.ToString(Formatting.None)))
+        {
+            httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            HttpResponseMessage response2 = client.PutAsync("/repos/cantest-nospam/mytest/actions/secrets/GOOGLE_ACCESS_TOKEN", httpContent).Result;
+            Console.WriteLine(response2.StatusCode);
+        }
+        using (HttpContent httpContent = new StringContent(expiresInSecondsSecret.ToString(Formatting.None)))
+        {
+            httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            HttpResponseMessage response2 = client.PutAsync("/repos/cantest-nospam/mytest/actions/secrets/EXPIRES_IN_SECONDS", httpContent).Result;
+            Console.WriteLine(response2.StatusCode);
+        }
+        using (HttpContent httpContent = new StringContent(idTokenSecret.ToString(Formatting.None)))
+        {
+            httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            HttpResponseMessage response2 = client.PutAsync("/repos/cantest-nospam/mytest/actions/secrets/ID_TOKEN", httpContent).Result;
+            Console.WriteLine(response2.StatusCode);
+        }
+        using (HttpContent httpContent = new StringContent(issuedSecret.ToString(Formatting.None)))
+        {
+            httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            HttpResponseMessage response2 = client.PutAsync("/repos/cantest-nospam/mytest/actions/secrets/ISSUED", httpContent).Result;
+            Console.WriteLine(response2.StatusCode);
+        }
+        using (HttpContent httpContent = new StringContent(issuedUtcSecret.ToString(Formatting.None)))
+        {
+            httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            HttpResponseMessage response2 = client.PutAsync("/repos/cantest-nospam/mytest/actions/secrets/ISSUED_UTC", httpContent).Result;
+            Console.WriteLine(response2.StatusCode);
+        }
+        using (HttpContent httpContent = new StringContent(refreshTokenSecret.ToString(Formatting.None)))
+        {
+            httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            HttpResponseMessage response2 = client.PutAsync("/repos/cantest-nospam/mytest/actions/secrets/REFRESH_TOKEN", httpContent).Result;
+            Console.WriteLine(response2.StatusCode);
+        }
+        using (HttpContent httpContent = new StringContent(scopeSecret.ToString(Formatting.None)))
+        {
+            httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            HttpResponseMessage response2 = client.PutAsync("/repos/cantest-nospam/mytest/actions/secrets/SCOPE", httpContent).Result;
+            Console.WriteLine(response2.StatusCode);
+        }
+        using (HttpContent httpContent = new StringContent(tokenTypeSecret.ToString(Formatting.None)))
+        {
+            httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            HttpResponseMessage response2 = client.PutAsync("/repos/cantest-nospam/mytest/actions/secrets/TOKEN_TYPE", httpContent).Result;
+            Console.WriteLine(response2.StatusCode);
+        }
+    }
+
 
 }
