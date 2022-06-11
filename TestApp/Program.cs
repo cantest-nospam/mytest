@@ -123,7 +123,7 @@ public class Program
             vid.Id = "jnzNNTKBglc";
             vid.Snippet = new VideoSnippet();
             vid.Snippet.Description = "Youtube for GitHub!";
-            vid.Snippet.Title = "GitHub";
+            vid.Snippet.Title = "GitHub 2";
             vid.Snippet.CategoryId = "1";
             VideosResource.UpdateRequest req = yt.Videos.Update(vid, "snippet");
             req.Execute();
