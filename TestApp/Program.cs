@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading;
 using Google.Apis.Util.Store;
 using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Auth.OAuth2;
@@ -110,7 +109,7 @@ public class Program
             Console.WriteLine(cred1.UserId);
             Console.WriteLine(DateTime.Now);
             Console.WriteLine(DateTime.Now.AddSeconds((double)tokenRes.ExpiresInSeconds));
-            
+
 
             YouTubeService yt = new YouTubeService(new BaseClientService.Initializer()
             {
@@ -123,11 +122,25 @@ public class Program
             vid.Id = "jnzNNTKBglc";
             vid.Snippet = new VideoSnippet();
             vid.Snippet.Description = "Youtube for GitHub!";
-            vid.Snippet.Title = "GitHub 2";
+            vid.Snippet.Title = DateTime.Now.ToString();
             vid.Snippet.CategoryId = "1";
             VideosResource.UpdateRequest req = yt.Videos.Update(vid, "snippet");
             req.Execute();
 
+            SearchResource.ListRequest searchList = yt.Search.List("snippet");
+            searchList.ChannelId = "UC_Ftxa2jwg8R4IWDw48uyBw";
+            searchList.MaxResults = 30;
+            searchList.Order = SearchResource.ListRequest.OrderEnum.Date;
+
+            SearchListResponse searchResponse = searchList.ExecuteAsync().Result;
+
+            foreach (SearchResult video in searchResponse.Items)
+            {
+                if (video.Id.Kind == "youtube#video")
+                {
+                    Console.WriteLine(video.Snippet.Title);
+                }
+            }
 
         }
     }
