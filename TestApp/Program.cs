@@ -133,7 +133,7 @@ public class Program
             searchList.Order = SearchResource.ListRequest.OrderEnum.Date;
 
             SearchListResponse searchResponse = searchList.ExecuteAsync().Result;
-
+            Console.WriteLine("Searching videos");
             foreach (SearchResult video in searchResponse.Items)
             {
                 if (video.Id.Kind == "youtube#video")
