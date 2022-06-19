@@ -129,7 +129,7 @@ public class Program
 
             SearchResource.ListRequest searchList = yt.Search.List("snippet");
             searchList.ChannelId = "UC_Ftxa2jwg8R4IWDw48uyBw";
-            searchList.MaxResults = 30;
+            searchList.MaxResults = 20;
             searchList.Order = SearchResource.ListRequest.OrderEnum.Date;
 
             SearchListResponse searchResponse = searchList.ExecuteAsync().Result;
