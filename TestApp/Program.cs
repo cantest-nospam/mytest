@@ -12,6 +12,7 @@ using Google.Apis.Auth.OAuth2.Responses;
 using static Google.Apis.Auth.OAuth2.Web.AuthorizationCodeWebApp;
 using Google.Apis.Services;
 using Google.Apis.YouTube.v3.Data;
+using Octokit;
 
 public class Program
 {
@@ -134,11 +135,26 @@ public class Program
 
             SearchListResponse searchResponse = searchList.ExecuteAsync().Result;
             Console.WriteLine("Searching videos");
+            GitHubClient ghClient = new GitHubClient(new Octokit.ProductHeaderValue("TestApp"));
+            ghClient.Credentials = new Credentials(Environment.GetEnvironmentVariable("ACCESS_TOKEN"));
+
+            Reference main = ghClient.Git.Reference.Get("cantest-nospam", "mytest", "heads/main").Result;
+            Commit commit = ghClient.Git.Commit.Get("cantest-nospam", "mytest", main.Object.Sha).Result;
+
             foreach (SearchResult video in searchResponse.Items)
             {
                 if (video.Id.Kind == "youtube#video")
                 {
                     Console.WriteLine(video.Snippet.Title);
+                    NewTree commitTree = new NewTree { BaseTree = commit.Tree.Sha };
+                    NewBlob nBlob = new NewBlob { Encoding = EncodingType.Utf8, Content = video.Snippet.Title };
+                    BlobReference bRef = ghClient.Git.Blob.Create("cantest-nospam", "mytest", nBlob).Result;
+                    commitTree.Tree.Add(new NewTreeItem { Path = "/video/" + video.Id.VideoId + ".md", Mode = "100644", Type = TreeType.Blob, Sha = bRef.Sha });
+                    TreeResponse treeRes = ghClient.Git.Tree.Create("cantest-nospam", "mytest", commitTree).Result;
+
+                    NewCommit newCom = new NewCommit("Created video ref", treeRes.Sha, main.Object.Sha);
+                    Commit thisCom = ghClient.Git.Commit.Create("cantest-nospam", "mytest", newCom).Result;
+                    Reference refUpdate = ghClient.Git.Reference.Update("cantest-nospam", "mytest", "heads/main", new ReferenceUpdate(thisCom.Sha)).Result;
                 }
             }
 
