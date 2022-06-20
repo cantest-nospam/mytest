@@ -138,13 +138,13 @@ public class Program
             GitHubClient ghClient = new GitHubClient(new Octokit.ProductHeaderValue("TestApp"));
             ghClient.Credentials = new Credentials(Environment.GetEnvironmentVariable("GITHUB_TOKEN"), AuthenticationType.Bearer);
 
-            Reference main = ghClient.Git.Reference.Get("cantest-nospam", "mytest", "heads/main").Result;
-            Commit commit = ghClient.Git.Commit.Get("cantest-nospam", "mytest", main.Object.Sha).Result;
 
             foreach (SearchResult video in searchResponse.Items)
             {
                 if (video.Id.Kind == "youtube#video")
                 {
+                    Reference main = ghClient.Git.Reference.Get("cantest-nospam", "mytest", "heads/main").Result;
+                    Commit commit = ghClient.Git.Commit.Get("cantest-nospam", "mytest", main.Object.Sha).Result;
                     Console.WriteLine(video.Snippet.Title);
                     NewTree commitTree = new NewTree { BaseTree = commit.Tree.Sha };
                     NewBlob nBlob = new NewBlob { Encoding = EncodingType.Utf8, Content = video.Snippet.Title };
@@ -155,6 +155,7 @@ public class Program
                     NewCommit newCom = new NewCommit("Created video ref", treeRes.Sha, main.Object.Sha);
                     Commit thisCom = ghClient.Git.Commit.Create("cantest-nospam", "mytest", newCom).Result;
                     Reference refUpdate = ghClient.Git.Reference.Update("cantest-nospam", "mytest", "heads/main", new ReferenceUpdate(thisCom.Sha)).Result;
+
                 }
             }
 
