@@ -149,7 +149,7 @@ public class Program
                     NewTree commitTree = new NewTree { BaseTree = commit.Tree.Sha };
                     NewBlob nBlob = new NewBlob { Encoding = EncodingType.Utf8, Content = video.Snippet.Title };
                     BlobReference bRef = ghClient.Git.Blob.Create("cantest-nospam", "mytest", nBlob).Result;
-                    commitTree.Tree.Add(new NewTreeItem { Path = "/video/" + video.Id.VideoId + ".md", Mode = "100644", Type = TreeType.Blob, Sha = bRef.Sha });
+                    commitTree.Tree.Add(new NewTreeItem { Path = "video/" + video.Id.VideoId + ".md", Mode = "100644", Type = TreeType.Blob, Sha = bRef.Sha });
                     TreeResponse treeRes = ghClient.Git.Tree.Create("cantest-nospam", "mytest", commitTree).Result;
 
                     NewCommit newCom = new NewCommit("Created video ref", treeRes.Sha, main.Object.Sha);
