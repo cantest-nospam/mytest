@@ -154,7 +154,7 @@ public class Program
 
                     NewCommit newCom = new NewCommit("Created video ref", treeRes.Sha, main.Object.Sha);
                     Commit thisCom = ghClient.Git.Commit.Create("cantest-nospam", "mytest", newCom).Result;
-                    Reference refUpdate = ghClient.Git.Reference.Update("cantest-nospam", "mytest", "heads/main", new ReferenceUpdate(thisCom.Sha)).Result;
+                    //Reference refUpdate = ghClient.Git.Reference.Update("cantest-nospam", "mytest", "heads/main", new ReferenceUpdate(thisCom.Sha)).Result;
                 }
             }
 
