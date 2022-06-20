@@ -136,7 +136,7 @@ public class Program
             SearchListResponse searchResponse = searchList.ExecuteAsync().Result;
             Console.WriteLine("Searching videos");
             GitHubClient ghClient = new GitHubClient(new Octokit.ProductHeaderValue("TestApp"));
-            ghClient.Credentials = new Credentials(Environment.GetEnvironmentVariable("GITHUB_TOKEN"));
+            ghClient.Credentials = new Credentials(Environment.GetEnvironmentVariable("GITHUB_TOKEN"), AuthenticationType.Bearer);
 
             Reference main = ghClient.Git.Reference.Get("cantest-nospam", "mytest", "heads/main").Result;
             Commit commit = ghClient.Git.Commit.Get("cantest-nospam", "mytest", main.Object.Sha).Result;
