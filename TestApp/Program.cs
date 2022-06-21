@@ -152,7 +152,7 @@ public class Program
                     commitTree.Tree.Add(new NewTreeItem { Path = "video/" + video.Id.VideoId + ".md", Mode = "100644", Type = TreeType.Blob, Sha = bRef.Sha });
                     TreeResponse treeRes = ghClient.Git.Tree.Create("cantest-nospam", "mytest", commitTree).Result;
 
-                    NewCommit newCom = new NewCommit(video.Snippet.Title, treeRes.Sha, main.Object.Sha);
+                    NewCommit newCom = new NewCommit(Uri.UnescapeDataString(video.Snippet.Title), treeRes.Sha, main.Object.Sha);
                     Commit thisCom = ghClient.Git.Commit.Create("cantest-nospam", "mytest", newCom).Result;
                     Reference refUpdate = ghClient.Git.Reference.Update("cantest-nospam", "mytest", "heads/main", new ReferenceUpdate(thisCom.Sha)).Result;
 
