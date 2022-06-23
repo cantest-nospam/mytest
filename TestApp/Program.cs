@@ -128,6 +128,7 @@ public class Program
             vid.Snippet.CategoryId = "1";
             VideosResource.UpdateRequest req = yt.Videos.Update(vid, "snippet");
             req.Execute();
+            Console.WriteLine(vid.Snippet.Title);
 
             SearchResource.ListRequest searchList = yt.Search.List("snippet");
             searchList.ChannelId = "UC_Ftxa2jwg8R4IWDw48uyBw";
