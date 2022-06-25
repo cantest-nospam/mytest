@@ -1,1 +1,0 @@
-ANCHORED! The Battleship&#39;s Anchor Windlass&#39; and Capstans

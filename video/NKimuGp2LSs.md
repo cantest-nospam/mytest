@@ -1,1 +1,0 @@
-Bow to Stern: Walking the Battleship&#39;s Main Deck

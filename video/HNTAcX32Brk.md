@@ -1,1 +1,0 @@
-&quot;They Were Shorter Back Then!&quot;

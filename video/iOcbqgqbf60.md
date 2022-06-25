@@ -1,1 +1,0 @@
-Commissioning Battleship New Jersey

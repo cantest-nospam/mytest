@@ -1,1 +1,0 @@
-Zulu Time and 24 Hour Clocks
