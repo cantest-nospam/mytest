@@ -2,9 +2,9 @@ name: Build Test
 
 on:
   push:
-    branches: [ errata ]
+    branches: [ main ]
   pull_request:
-    branches: [ errata ]
+    branches: [ main ]
 
 jobs:
   build:
