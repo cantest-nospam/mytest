@@ -2,7 +2,7 @@ name: Build Test
 
 on:
   push:
-    branches: [ main ]
+    branches: [ errata ]
   pull_request:
     branches: [ master ]
 
