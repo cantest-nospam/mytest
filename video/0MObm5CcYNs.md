@@ -1,1 +1,0 @@
-The Most Exciting New Item In the Battleship&#39;s Collection in Years!
