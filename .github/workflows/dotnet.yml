@@ -2,7 +2,7 @@ name: Build Test
 
 on:
   schedule:
-    - cron: '51 * * * *'
+    - cron: '56 * * * *'
 
 jobs:
   build:
