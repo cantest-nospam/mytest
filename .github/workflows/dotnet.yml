@@ -1,10 +1,8 @@
-name: Build Test
+name: Build Test Youtube
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  schedule:
+    - cron: '57 * * * *'
 
 jobs:
   build:
