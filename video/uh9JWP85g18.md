@@ -1,0 +1,1 @@
+Cleaning the Largest Guns Ever Put On an American Battleship: A Picture is Worth 1,000 Words
