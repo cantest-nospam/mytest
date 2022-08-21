@@ -2,7 +2,7 @@ name: Build Test Youtube
 
 on:
   schedule:
-    - cron: '57 * * * *'
+    - cron: '4 * * * *'
 
 jobs:
   build:
