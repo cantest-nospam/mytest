@@ -1,10 +1,9 @@
 name: Build Test
 
 on:
-  push:
-    branches: [ errata ]
-  pull_request:
-    branches: [ errata ]
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '45 * * * *'
 
 jobs:
   build:
