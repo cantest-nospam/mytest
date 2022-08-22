@@ -1,4 +1,4 @@
-name: Build Test ${{ github.ref }}
+name: Build Test2
 
 on:
   workflow_dispatch:
