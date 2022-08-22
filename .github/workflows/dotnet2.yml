@@ -1,8 +1,9 @@
 name: Build Test
 
 on:
+  workflow_dispatch:
   schedule:
-  - cron: "25 * * * *"
+    - cron: '36 * * * *' # run every day at 16:20 UTC / 8:20 PST
 
 jobs:
   build:
