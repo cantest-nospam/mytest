@@ -160,7 +160,7 @@ public class Program
 
                 }
             }
-
+            Thread.Sleep(90000);
         }
     }
 
