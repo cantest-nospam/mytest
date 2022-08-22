@@ -3,7 +3,7 @@ name: Build Test2
 on:
   workflow_dispatch:
   schedule:
-    - cron: '20 * * * *' # run every day at 16:20 UTC / 8:20 PST
+    - cron: '10,20,30,40,50 * * * *' # run every day at 16:20 UTC / 8:20 PST
 
 jobs:
   build:
