@@ -1,0 +1,1 @@
+Good Morning from Battleship Texas as she prepares for her tow to drydock
