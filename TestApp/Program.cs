@@ -35,7 +35,6 @@ public class Program
             catch (AbandonedMutexException e)
             {
                 Console.WriteLine("This is really bad");
-                continue;
             }
             catch (Exception e)
             {
