@@ -22,6 +22,33 @@ public class Program
         Console.WriteLine("Hello, World!");
         Console.WriteLine("==================================================");
         Console.WriteLine("This is a test");
+        using (var m = new Mutex(false, "Global\\123"))
+        {
+            var hasMutex = false;
+            try
+            {
+            if (m.WaitOne(2))
+            {
+                hasMutex = true;
+            }
+            }
+            catch (AbandonedMutexException e)
+            {
+                Console.WriteLine("This is really bad");
+            continue;
+            }
+            catch (Exception e)
+            {
+                continue;
+            }
+            finally
+            {
+            if (hasMutex)
+            {
+                m.ReleaseMutex();
+            }
+            }
+        }
         Console.WriteLine(Environment.GetEnvironmentVariable("TEMP_SECRET"));
         Console.WriteLine(Environment.GetEnvironmentVariable("AUTO_SECRET").Substring(2));
         Task.WaitAll(ExecuteAsync());
