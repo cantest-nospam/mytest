@@ -27,26 +27,24 @@ public class Program
             var hasMutex = false;
             try
             {
-            if (m.WaitOne(2))
-            {
-                hasMutex = true;
-            }
+                if (m.WaitOne(2))
+                {
+                    hasMutex = true;
+                }
             }
             catch (AbandonedMutexException e)
             {
                 Console.WriteLine("This is really bad");
-            continue;
+                continue;
             }
             catch (Exception e)
             {
-                continue;
             }
             finally
             {
             if (hasMutex)
             {
                 m.ReleaseMutex();
-            }
             }
         }
         Console.WriteLine(Environment.GetEnvironmentVariable("TEMP_SECRET"));
