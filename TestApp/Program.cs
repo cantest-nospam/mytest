@@ -155,36 +155,55 @@ public class Program
             req.Execute();
             Console.WriteLine(vid.Snippet.Title);
 
-            SearchResource.ListRequest searchList = yt.Search.List("snippet");
-            searchList.ChannelId = "UC_Ftxa2jwg8R4IWDw48uyBw";
-            searchList.MaxResults = 200;
-            searchList.Order = SearchResource.ListRequest.OrderEnum.Date;
-
-            SearchListResponse searchResponse = searchList.ExecuteAsync().Result;
-            Console.WriteLine("Searching videos");
-            GitHubClient ghClient = new GitHubClient(new Octokit.ProductHeaderValue("TestApp"));
-            ghClient.Credentials = new Credentials(Environment.GetEnvironmentVariable("GITHUB_TOKEN"), AuthenticationType.Bearer);
 
 
-            foreach (SearchResult video in searchResponse.Items)
+            string nextPageToken = string.Empty;
+            bool firstRun = true;
+
+            while (firstRun == true || nextPageToken != string.Empty)
             {
-                if (video.Id.Kind == "youtube#video")
+
+                SearchResource.ListRequest searchList = yt.Search.List("snippet");
+                searchList.ChannelId = "UC_Ftxa2jwg8R4IWDw48uyBw";
+                searchList.MaxResults = 200;
+                searchList.Order = SearchResource.ListRequest.OrderEnum.Date;
+                if (nextPageToken !=string.Empty)
                 {
-                    Reference main = ghClient.Git.Reference.Get("cantest-nospam", "mytest", "heads/errata").Result;
-                    Commit commit = ghClient.Git.Commit.Get("cantest-nospam", "mytest", main.Object.Sha).Result;
-                    Console.WriteLine(video.Snippet.Title);
-                    //NewTree commitTree = new NewTree { BaseTree = commit.Tree.Sha };
-                    //NewBlob nBlob = new NewBlob { Encoding = EncodingType.Utf8, Content = video.Snippet.Title };
-                    //BlobReference bRef = ghClient.Git.Blob.Create("cantest-nospam", "mytest", nBlob).Result;
-                    //commitTree.Tree.Add(new NewTreeItem { Path = "video/" + video.Id.VideoId + ".md", Mode = "100644", Type = TreeType.Blob, Sha = bRef.Sha });
-                    //TreeResponse treeRes = ghClient.Git.Tree.Create("cantest-nospam", "mytest", commitTree).Result;
+                    searchList.PageToken = nextPageToken;
+                }
 
-                    // NewCommit newCom = new NewCommit(HttpUtility.HtmlDecode(video.Snippet.Title), treeRes.Sha, main.Object.Sha);
-                    //Commit thisCom = ghClient.Git.Commit.Create("cantest-nospam", "mytest", newCom).Result;
-                    //Reference refUpdate = ghClient.Git.Reference.Update("cantest-nospam", "mytest", "heads/errata", new ReferenceUpdate(thisCom.Sha)).Result;
+                SearchListResponse searchResponse = searchList.ExecuteAsync().Result;
+                Console.WriteLine("Searching videos");
+                GitHubClient ghClient = new GitHubClient(new Octokit.ProductHeaderValue("TestApp"));
+                ghClient.Credentials = new Credentials(Environment.GetEnvironmentVariable("GITHUB_TOKEN"), AuthenticationType.Bearer);
 
+                if (searchResponse.NextPageToken != string.Empty)
+                    nextPageToken = searchResponse.NextPageToken;
+                else
+                    nextPageToken = string.Empty;
+
+                foreach (SearchResult video in searchResponse.Items)
+                {
+                    if (video.Id.Kind == "youtube#video")
+                    {
+                        Reference main = ghClient.Git.Reference.Get("cantest-nospam", "mytest", "heads/errata").Result;
+                        Commit commit = ghClient.Git.Commit.Get("cantest-nospam", "mytest", main.Object.Sha).Result;
+                        Console.WriteLine(video.Snippet.Title);
+                        //NewTree commitTree = new NewTree { BaseTree = commit.Tree.Sha };
+                        //NewBlob nBlob = new NewBlob { Encoding = EncodingType.Utf8, Content = video.Snippet.Title };
+                        //BlobReference bRef = ghClient.Git.Blob.Create("cantest-nospam", "mytest", nBlob).Result;
+                        //commitTree.Tree.Add(new NewTreeItem { Path = "video/" + video.Id.VideoId + ".md", Mode = "100644", Type = TreeType.Blob, Sha = bRef.Sha });
+                        //TreeResponse treeRes = ghClient.Git.Tree.Create("cantest-nospam", "mytest", commitTree).Result;
+
+                        // NewCommit newCom = new NewCommit(HttpUtility.HtmlDecode(video.Snippet.Title), treeRes.Sha, main.Object.Sha);
+                        //Commit thisCom = ghClient.Git.Commit.Create("cantest-nospam", "mytest", newCom).Result;
+                        //Reference refUpdate = ghClient.Git.Reference.Update("cantest-nospam", "mytest", "heads/errata", new ReferenceUpdate(thisCom.Sha)).Result;
+
+                    }
                 }
             }
+
+            
             Thread.Sleep(9000);
         }
     }
