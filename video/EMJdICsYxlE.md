@@ -1,0 +1,1 @@
+Are The 16in Gun Turrets Welded in Place? UPDATE!
