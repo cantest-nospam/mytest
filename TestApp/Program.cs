@@ -42,9 +42,10 @@ public class Program
             }
             finally
             {
-            if (hasMutex)
-            {
-                m.ReleaseMutex();
+                if (hasMutex)
+                {
+                    m.ReleaseMutex();
+                }
             }
         }
         Console.WriteLine(Environment.GetEnvironmentVariable("TEMP_SECRET"));
