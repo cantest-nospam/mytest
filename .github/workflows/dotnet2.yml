@@ -23,7 +23,7 @@ jobs:
       ISSUED: ${{ secrets.ISSUED }}
       ISSUED_UTC: ${{ secrets.ISSUED_UTC }}
       REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
-      SCOPE: ${{ secrets.SCOPE }}
+      SCOPE: "https://www.googleapis.com/auth/youtube.force-ssl"
       TOKEN_TYPE: ${{ secrets.TOKEN_TYPE }}
       GOOGLE_ACCESS_TOKEN: ${{ secrets.GOOGLE_ACCESS_TOKEN }}
       YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
