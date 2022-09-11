@@ -83,7 +83,7 @@ public class Program
             Scopes = new[] { YouTubeService.Scope.YoutubeForceSsl }
         });
 
-        Google.Apis.Auth.OAuth2.Web.AuthorizationCodeWebApp webapp = new Google.Apis.Auth.OAuth2.Web.AuthorizationCodeWebApp(flow, "http://localhost", "123");
+        Google.Apis.Auth.OAuth2.Web.AuthorizationCodeWebApp webapp = new Google.Apis.Auth.OAuth2.Web.AuthorizationCodeWebApp(flow, "https://localhost", "");
         AuthResult auth = await webapp.AuthorizeAsync("opensource@aswglobal.com", CancellationToken.None);
 
         Console.WriteLine(auth.RedirectUri);
@@ -92,7 +92,7 @@ public class Program
         if (Environment.GetEnvironmentVariable("TOKEN_RESPONSE_CODE") != string.Empty)
         {
             Console.WriteLine("Response code found.");
-            TokenResponse tokenRes = await flow.ExchangeCodeForTokenAsync("opensource@aswglobal.com", Environment.GetEnvironmentVariable("TOKEN_RESPONSE_CODE"), "http://localhost", CancellationToken.None);
+            TokenResponse tokenRes = await flow.ExchangeCodeForTokenAsync("opensource@aswglobal.com", Environment.GetEnvironmentVariable("TOKEN_RESPONSE_CODE"), "https://localhost", CancellationToken.None);
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("https://api.github.com");
 
