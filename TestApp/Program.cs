@@ -83,7 +83,7 @@ public class Program
             Scopes = new[] { YouTubeService.Scope.YoutubeForceSsl }
         });
 
-        Google.Apis.Auth.OAuth2.Web.AuthorizationCodeWebApp webapp = new Google.Apis.Auth.OAuth2.Web.AuthorizationCodeWebApp(flow, "https://localhost", "");
+        Google.Apis.Auth.OAuth2.Web.AuthorizationCodeWebApp webapp = new Google.Apis.Auth.OAuth2.Web.AuthorizationCodeWebApp(flow, "github.com:/cantest-nospam/mytest/blob/errata/README.md", "");
         AuthResult auth = await webapp.AuthorizeAsync("opensource@aswglobal.com", CancellationToken.None);
 
         Console.WriteLine(auth.RedirectUri);
@@ -168,7 +168,7 @@ public class Program
                 searchList.ChannelId = "UC_Ftxa2jwg8R4IWDw48uyBw";
                 searchList.MaxResults = 200;
                 searchList.Order = SearchResource.ListRequest.OrderEnum.Date;
-                if (nextPageToken !=string.Empty)
+                if (nextPageToken != string.Empty)
                 {
                     searchList.PageToken = nextPageToken;
                 }
@@ -205,7 +205,7 @@ public class Program
                 }
             }
 
-            
+
             Thread.Sleep(9000);
         }
     }
