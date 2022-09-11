@@ -65,7 +65,7 @@ public class Program
                 ""token_uri"": ""https://oauth2.googleapis.com/token"",
                 ""auth_provider_x509_cert_url"": ""https://www.googleapis.com/oauth2/v1/certs"",
                 ""client_secret"": ""{CLIENT_SECRET}"",
-                ""redirect_uris"": [ ""github.com:/cantest-nospam/mytest/blob/errata/README.md"" ]
+                ""redirect_uris"": [ ""com.github:/cantest-nospam/mytest/blob/errata/README.md"" ]
               }
             }";
 
@@ -83,7 +83,7 @@ public class Program
             Scopes = new[] { YouTubeService.Scope.YoutubeForceSsl }
         });
 
-        Google.Apis.Auth.OAuth2.Web.AuthorizationCodeWebApp webapp = new Google.Apis.Auth.OAuth2.Web.AuthorizationCodeWebApp(flow, "github.com:/cantest-nospam/mytest/blob/errata/README.md", "");
+        Google.Apis.Auth.OAuth2.Web.AuthorizationCodeWebApp webapp = new Google.Apis.Auth.OAuth2.Web.AuthorizationCodeWebApp(flow, "com.github:/cantest-nospam/mytest/blob/errata/README.md", "");
         AuthResult auth = await webapp.AuthorizeAsync("opensource@aswglobal.com", CancellationToken.None);
 
         Console.WriteLine(auth.RedirectUri);
