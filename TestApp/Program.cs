@@ -92,7 +92,7 @@ public class Program
         if (Environment.GetEnvironmentVariable("TOKEN_RESPONSE_CODE") != string.Empty)
         {
             Console.WriteLine("Response code found.");
-            TokenResponse tokenRes = await flow.ExchangeCodeForTokenAsync("opensource@aswglobal.com", Environment.GetEnvironmentVariable("TOKEN_RESPONSE_CODE"), "https://localhost", CancellationToken.None);
+            TokenResponse tokenRes = await flow.ExchangeCodeForTokenAsync("opensource@aswglobal.com", Environment.GetEnvironmentVariable("TOKEN_RESPONSE_CODE"), "http://localhost", CancellationToken.None);
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("https://api.github.com");
 
