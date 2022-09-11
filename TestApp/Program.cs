@@ -162,6 +162,7 @@ public class Program
 
             while (firstRun == true || nextPageToken != string.Empty)
             {
+                firstRun = false;
 
                 SearchResource.ListRequest searchList = yt.Search.List("snippet");
                 searchList.ChannelId = "UC_Ftxa2jwg8R4IWDw48uyBw";
@@ -189,6 +190,7 @@ public class Program
                         Reference main = ghClient.Git.Reference.Get("cantest-nospam", "mytest", "heads/errata").Result;
                         Commit commit = ghClient.Git.Commit.Get("cantest-nospam", "mytest", main.Object.Sha).Result;
                         Console.WriteLine(video.Snippet.Title);
+                        Thread.Sleep(90);
                         //NewTree commitTree = new NewTree { BaseTree = commit.Tree.Sha };
                         //NewBlob nBlob = new NewBlob { Encoding = EncodingType.Utf8, Content = video.Snippet.Title };
                         //BlobReference bRef = ghClient.Git.Blob.Create("cantest-nospam", "mytest", nBlob).Result;
