@@ -83,7 +83,7 @@ public class Program
             Scopes = new[] { YouTubeService.Scope.YoutubeForceSsl }
         });
 
-        Google.Apis.Auth.OAuth2.Web.AuthorizationCodeWebApp webapp = new Google.Apis.Auth.OAuth2.Web.AuthorizationCodeWebApp(flow, "https://github.com/cantest-nospam/mytest/blob/errata/README.md", "123");
+        Google.Apis.Auth.OAuth2.Web.AuthorizationCodeWebApp webapp = new Google.Apis.Auth.OAuth2.Web.AuthorizationCodeWebApp(flow, "http://localhost", "123");
         AuthResult auth = await webapp.AuthorizeAsync("opensource@aswglobal.com", CancellationToken.None);
 
         Console.WriteLine(auth.RedirectUri);
