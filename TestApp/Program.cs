@@ -161,9 +161,14 @@ public class Program
             bool firstRun = true;
             
             Environment.SetEnvironmentVariable("done", "yes");
+            
+            int runCount = 0;
 
             while (firstRun == true || nextPageToken != string.Empty)
             {
+                runCount++;
+                if (runCount >= 50)
+                    break;
                 firstRun = false;
 
                 SearchResource.ListRequest searchList = yt.Search.List("snippet");
