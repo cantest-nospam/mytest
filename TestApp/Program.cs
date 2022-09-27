@@ -159,6 +159,8 @@ public class Program
 
             string nextPageToken = string.Empty;
             bool firstRun = true;
+            
+            Environment.SetEnvironmentVariable("done", "yes");
 
             while (firstRun == true || nextPageToken != string.Empty)
             {
