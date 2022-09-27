@@ -167,7 +167,7 @@ public class Program
             while (firstRun == true || nextPageToken != string.Empty)
             {
                 runCount++;
-                if (runCount >= 50)
+                if (runCount >= 5)
                     break;
                 firstRun = false;
 
