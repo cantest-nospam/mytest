@@ -50,3 +50,7 @@ jobs:
       run: dotnet build TestApp/ --no-restore
     - name: Test (I:Debug T:Debug R:false)
       run: dotnet run --verbosity normal --project TestApp/TestApp.csproj --no-build Test/Debug/net6.0/TestApp.dll 
+    - name: Check web app
+      id: check
+      if: ${{ env.done == 'yes' }}
+      run: echo "env set"
