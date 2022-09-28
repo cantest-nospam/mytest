@@ -160,8 +160,13 @@ public class Program
             string nextPageToken = string.Empty;
             bool firstRun = true;
             
-            Environment.SetEnvironmentVariable("GITHUB_ENV", Environment.GetEnvironmentVariable("GITHUB_ENV") + "done=yes", EnvironmentVariableTarget.Machine);
-            Console.WriteLine(Environment.GetEnvironmentVariable("GITHUB_ENV"));
+            System.IO.File.AppendAllText(Environment.GetEnvironmentVariable("GITHUB_ENV"), "done=yes" + Environment.NewLine);
+            
+            var lines = System.IO.File.ReadLines(Environment.GetEnvironmentVariable("GITHUB_ENV"));
+            foreach (var line in lines)
+            {
+                Console.WriteLine(line);
+            }
             
             int runCount = 10;
 
