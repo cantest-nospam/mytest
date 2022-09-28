@@ -164,16 +164,14 @@ public class Program
             
             int runCount = 0;
 
-            while (firstRun == true || nextPageToken != string.Empty)
+            while ((firstRun == true || nextPageToken != string.Empty) && (runCount <= 5))
             {
                 runCount++;
-                if (runCount >= 5)
-                    break;
                 firstRun = false;
 
                 SearchResource.ListRequest searchList = yt.Search.List("snippet");
                 searchList.ChannelId = "UC_Ftxa2jwg8R4IWDw48uyBw";
-                searchList.MaxResults = 200;
+                searchList.MaxResults = 5;
                 searchList.Order = SearchResource.ListRequest.OrderEnum.Date;
                 if (nextPageToken != string.Empty)
                 {
