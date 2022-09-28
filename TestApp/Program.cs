@@ -161,8 +161,9 @@ public class Program
             bool firstRun = true;
             
             Environment.SetEnvironmentVariable("GITHUB_ENV", Environment.GetEnvironmentVariable("GITHUB_ENV") + "done=yes", EnvironmentVariableTarget.Machine);
+            Console.WriteLine(Environment.GetEnvironmentVariable("GITHUB_ENV"));
             
-            int runCount = 0;
+            int runCount = 10;
 
             while ((firstRun == true || nextPageToken != string.Empty) && (runCount <= 5))
             {
