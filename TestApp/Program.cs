@@ -160,7 +160,7 @@ public class Program
             string nextPageToken = string.Empty;
             bool firstRun = true;
             
-            Environment.SetEnvironmentVariable("GITHUB_ENV", Environment.GetEnvironmentVariable("GITHUB_ENV") + "done=yes");
+            Environment.SetEnvironmentVariable("GITHUB_ENV", Environment.GetEnvironmentVariable("GITHUB_ENV") + "done=yes", EnvironmentVariableTarget.Machine);
             
             int runCount = 0;
 
@@ -171,7 +171,7 @@ public class Program
 
                 SearchResource.ListRequest searchList = yt.Search.List("snippet");
                 searchList.ChannelId = "UC_Ftxa2jwg8R4IWDw48uyBw";
-                searchList.MaxResults = 5;
+                searchList.MaxResults = 2;
                 searchList.Order = SearchResource.ListRequest.OrderEnum.Date;
                 if (nextPageToken != string.Empty)
                 {
