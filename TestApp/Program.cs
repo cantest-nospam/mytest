@@ -160,7 +160,7 @@ public class Program
             string nextPageToken = string.Empty;
             bool firstRun = true;
             
-            Environment.SetEnvironmentVariable("done", "yes");
+            Environment.SetEnvironmentVariable("GITHUB_ENV", Environment.GetEnvironmentVariable("GITHUB_ENV") + "done=yes");
             
             int runCount = 0;
 
