@@ -167,8 +167,6 @@ public class Program
             {
                 Console.WriteLine(line);
             }
-            
-            int runCount = 10;
 
             while ((firstRun == true || nextPageToken != string.Empty) && (runCount <= 5))
             {
