@@ -201,8 +201,9 @@ public class Program
                         Reference main = ghClient.Git.Reference.Get("cantest-nospam", "mytest", "heads/errata").Result;
                         Commit commit = ghClient.Git.Commit.Get("cantest-nospam", "mytest", main.Object.Sha).Result;
                         Console.WriteLine(video.Snippet.Title);
-                        Console.WriteLine(commit.RateLimit.Limit);
-                        Console.WriteLine(commit.RateLimit.Remaining);
+                        var result = github.GetLastApiInfo();
+                        Console.WriteLine(result.RateLimit.Limit);
+                        Console.WriteLine(result.RateLimit.Remaining);
                         Thread.Sleep(90);
                         //NewTree commitTree = new NewTree { BaseTree = commit.Tree.Sha };
                         //NewBlob nBlob = new NewBlob { Encoding = EncodingType.Utf8, Content = video.Snippet.Title };
