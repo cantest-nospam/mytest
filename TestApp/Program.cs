@@ -155,7 +155,7 @@ public class Program
             req.Execute();
             Console.WriteLine(vid.Snippet.Title);
 
-
+            int runCount = 0;
 
             string nextPageToken = string.Empty;
             bool firstRun = true;
