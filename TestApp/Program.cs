@@ -201,7 +201,7 @@ public class Program
                         Reference main = ghClient.Git.Reference.Get("cantest-nospam", "mytest", "heads/errata").Result;
                         Commit commit = ghClient.Git.Commit.Get("cantest-nospam", "mytest", main.Object.Sha).Result;
                         Console.WriteLine(video.Snippet.Title);
-                        var result = github.GetLastApiInfo();
+                        var result = ghClient.GetLastApiInfo();
                         Console.WriteLine(result.RateLimit.Limit);
                         Console.WriteLine(result.RateLimit.Remaining);
                         Thread.Sleep(90);
