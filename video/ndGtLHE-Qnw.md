@@ -1,0 +1,1 @@
+Turbo Electric vs Direct Drive Turbine: What Propulsion Plant Is Better for Capital Ships?
