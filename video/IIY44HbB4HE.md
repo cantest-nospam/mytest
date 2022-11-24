@@ -1,0 +1,1 @@
+USMC Anti-Terror Training Exercises on Battleship NJ
