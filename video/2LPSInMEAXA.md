@@ -1,0 +1,1 @@
+Richelieu and New Jersey: A Picture is Worth 1,000 Words
