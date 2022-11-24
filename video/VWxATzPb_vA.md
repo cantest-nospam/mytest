@@ -1,0 +1,1 @@
+Bob Hope Performing on Top of a Gun Turret, 1968
