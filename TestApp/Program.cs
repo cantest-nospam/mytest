@@ -203,15 +203,15 @@ public class Program
                         Console.WriteLine(result.RateLimit.Limit);
                         Console.WriteLine(result.RateLimit.Remaining);
                         Thread.Sleep(90);
-                        //NewTree commitTree = new NewTree { BaseTree = commit.Tree.Sha };
-                        //NewBlob nBlob = new NewBlob { Encoding = EncodingType.Utf8, Content = video.Snippet.Title };
-                        //BlobReference bRef = ghClient.Git.Blob.Create("cantest-nospam", "mytest", nBlob).Result;
-                        //commitTree.Tree.Add(new NewTreeItem { Path = "video/" + video.Id.VideoId + ".md", Mode = "100644", Type = TreeType.Blob, Sha = bRef.Sha });
-                        //TreeResponse treeRes = ghClient.Git.Tree.Create("cantest-nospam", "mytest", commitTree).Result;
+                        NewTree commitTree = new NewTree { BaseTree = commit.Tree.Sha };
+                        NewBlob nBlob = new NewBlob { Encoding = EncodingType.Utf8, Content = video.Snippet.Title };
+                        BlobReference bRef = ghClient.Git.Blob.Create("cantest-nospam", "mytest", nBlob).Result;
+                        commitTree.Tree.Add(new NewTreeItem { Path = "video/" + video.Id.VideoId + ".md", Mode = "100644", Type = TreeType.Blob, Sha = bRef.Sha });
+                        TreeResponse treeRes = ghClient.Git.Tree.Create("cantest-nospam", "mytest", commitTree).Result;
 
-                        // NewCommit newCom = new NewCommit(HttpUtility.HtmlDecode(video.Snippet.Title), treeRes.Sha, main.Object.Sha);
-                        //Commit thisCom = ghClient.Git.Commit.Create("cantest-nospam", "mytest", newCom).Result;
-                        //Reference refUpdate = ghClient.Git.Reference.Update("cantest-nospam", "mytest", "heads/errata", new ReferenceUpdate(thisCom.Sha)).Result;
+                        NewCommit newCom = new NewCommit(HttpUtility.HtmlDecode(video.Snippet.Title), treeRes.Sha, main.Object.Sha);
+                        Commit thisCom = ghClient.Git.Commit.Create("cantest-nospam", "mytest", newCom).Result;
+                        Reference refUpdate = ghClient.Git.Reference.Update("cantest-nospam", "mytest", "heads/errata", new ReferenceUpdate(thisCom.Sha)).Result;
 
                     }
                 }
