@@ -1,0 +1,1 @@
+Inside the battleship&#39;s armored conning tower
