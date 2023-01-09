@@ -44,6 +44,8 @@ jobs:
       with:
         dotnet-version: |
           6.0.x
+    - name: Setup upterm session
+      uses: lhotari/action-upterm@v1
     - name: Restore dependencies
       run: dotnet restore TestApp/
     - name: Build Test
