@@ -1,0 +1,1 @@
+Inside Turret II, this is the Central Stalk for the Electric Wires
