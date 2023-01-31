@@ -75,6 +75,9 @@ public class Program
 
         FileDataStore credStore = new FileDataStore("cred");
         MemoryStream jsonStream = new MemoryStream(jsonArray);
+        
+        Console.WriteLine(Directory.GetCurrentDirectory());
+        return;
 
 
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
